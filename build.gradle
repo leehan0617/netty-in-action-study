@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    task initSourceFolders {
+        if (!project.name.equals('modules')) {
+            sourceSets*.java.srcDirs*.each {
+                if(!it.exists()) {
+                    it.mkdirs()
+                }
+            }
+
+            sourceSets*.resources.srcDirs*.each {
+                if(!it.exists()) {
+                    it.mkdirs()
+                }
+            }
+        }
+    }
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile group: 'io.netty', name: 'netty-all', version: '4.1.51.Final'
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
